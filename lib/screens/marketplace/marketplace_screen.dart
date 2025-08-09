@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../providers/marketplace_provider.dart';
-import '../../models/waste_item.dart'; // Add this import
+// Add this import
 import '../../utils/colors.dart';
-import '../../widgets/custom_card.dart';
 import 'buy_waste_screen.dart';
 import 'sell_waste_screen.dart';
 
@@ -51,7 +50,7 @@ class _MarketplaceScreenState extends State<MarketplaceScreen>
           ],
         ),
       ),
-      backgroundColor: AppColors.background,
+      backgroundColor: const Color.fromARGB(255, 235, 231, 249),
       body: TabBarView(
         controller: _tabController,
         children: [

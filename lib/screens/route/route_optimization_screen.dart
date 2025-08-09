@@ -98,7 +98,7 @@ class _RouteOptimizationScreenState extends State<RouteOptimizationScreen> {
           infoWindow: InfoWindow(
             title: stop.type == 'start' ? 'Starting Point' :
             stop.type == 'destination' ? 'Final Destination' :
-            'Pickup Stop ${i}',
+            'Pickup Stop $i',
             snippet: stop.address,
           ),
         ),
@@ -347,7 +347,7 @@ class _RouteOptimizationScreenState extends State<RouteOptimizationScreen> {
       default:
         icon = Icons.location_on;
         color = Colors.orange;
-        title = 'Delivery Stop ${index}';
+        title = 'Delivery Stop $index';
     }
 
     return Padding(

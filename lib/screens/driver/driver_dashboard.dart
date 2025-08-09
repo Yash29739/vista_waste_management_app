@@ -22,14 +22,25 @@ class _DriverDashboardState extends State<DriverDashboard> {
   }
 
   Future<void> _loadData() async {
-    final requestProvider = Provider.of<RequestProvider>(context, listen: false);
-    await requestProvider.loadRequests(); // Load all requests for driver
+    try {
+      final requestProvider = Provider.of<RequestProvider>(context, listen: false);
+      await requestProvider.loadRequests(); // Load all requests for driver
+    } catch (e) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Error loading data: ${e.toString()}'),
+            backgroundColor: Colors.red,
+          ),
+        );
+      }
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.background,
+      backgroundColor: const Color.fromARGB(255, 225, 255, 225),
       body: SafeArea(
         child: RefreshIndicator(
           onRefresh: _loadData,
@@ -73,6 +84,16 @@ class _DriverDashboardState extends State<DriverDashboard> {
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
+                         Container(
+          decoration: BoxDecoration(
+            shape: BoxShape.circle,
+            border: Border.all(color: Colors.white, width: 3),
+          ),
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(50),
+            child: Image.asset("assets/app_icon.png", height: 60),
+          ),
+        ),
                         const Text(
                           'Driver Dashboard',
                           style: TextStyle(
@@ -348,7 +369,7 @@ class _DriverDashboardState extends State<DriverDashboard> {
                         ),
                         const SizedBox(height: 4),
                         Text(
-                          'Request #${request.id.substring(0, 8)}',
+                          'Request #${request.id.length > 8 ? request.id.substring(0, 8) : request.id}',
                           style: const TextStyle(
                             fontSize: 12,
                             color: AppColors.textSecondary,
