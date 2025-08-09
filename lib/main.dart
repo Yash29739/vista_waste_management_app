@@ -1,4 +1,6 @@
+import 'package:animated_splash_screen/animated_splash_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
 import 'providers/auth_provider.dart';
 import 'providers/request_provider.dart';
@@ -61,9 +63,11 @@ class VistaApp extends StatelessWidget {
             ),
             filled: true,
             fillColor: Colors.white,
-            contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+            contentPadding:
+                const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
           ),
-          cardTheme: CardThemeData( // Fix: Use CardThemeData instead of CardTheme
+          cardTheme: CardThemeData(
+            // Fix: Use CardThemeData instead of CardTheme
             elevation: 2,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(12),
@@ -71,8 +75,55 @@ class VistaApp extends StatelessWidget {
             color: Colors.white,
           ),
         ),
-        home: const AuthWrapper(),
+        home: const SplashScreen(),
       ),
+    );
+  }
+}
+
+class SplashScreen extends StatefulWidget {
+  const SplashScreen({super.key});
+
+  @override
+  State<SplashScreen> createState() => _SplashScreenState();
+}
+
+class _SplashScreenState extends State<SplashScreen> {
+  Widget? nextScreen;
+
+  @override
+  Widget build(BuildContext context) {
+    return AnimatedSplashScreen(
+      splash: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          ClipRRect(
+            borderRadius: BorderRadius.circular(20),
+            child: Image.asset("assets/app_icon.png", width: 220),
+          ),
+          const SizedBox(height: 20),
+          const Text(
+            "Vista",
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              fontSize: 35,
+              fontWeight: FontWeight.bold,
+              fontStyle: FontStyle.italic,
+              color: Colors.white,
+              fontFamily: "Merriweather",
+            ),
+          ),
+        ],
+      ),
+      nextScreen: const AuthWrapper(),
+      backgroundColor: const Color.fromARGB(255, 0, 151, 5),
+      splashIconSize: 550,
+      centered: true,
+      duration: 3000,
+      splashTransition: SplashTransition.fadeTransition,
+      pageTransitionType: PageTransitionType.fade,
+      animationDuration: const Duration(milliseconds: 2000),
     );
   }
 }

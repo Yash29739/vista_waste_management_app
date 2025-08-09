@@ -80,7 +80,7 @@ class _AnalyticsScreenState extends State<AnalyticsScreen> {
           ),
         ],
       ),
-      backgroundColor: AppColors.background,
+      backgroundColor: const Color.fromARGB(255, 235, 231, 249),
       body: _isLoading
           ? const Center(child: CircularProgressIndicator())
           : Column(
@@ -629,7 +629,7 @@ class _AnalyticsScreenState extends State<AnalyticsScreen> {
                   ],
                 ),
               );
-            }).toList(),
+            }),
           ],
         ),
       ),
@@ -844,7 +844,7 @@ class _AnalyticsScreenState extends State<AnalyticsScreen> {
                   ],
                 ),
               );
-            }).toList(),
+            }),
           ],
         ),
       ),

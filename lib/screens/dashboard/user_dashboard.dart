@@ -28,26 +28,38 @@ class _UserDashboardState extends State<UserDashboard> {
   }
 
   Future<void> _loadData() async {
-    final requestProvider = Provider.of<RequestProvider>(context, listen: false);
-    final marketplaceProvider = Provider.of<MarketplaceProvider>(context, listen: false);
+    try {
+      final requestProvider = Provider.of<RequestProvider>(context, listen: false);
+      final marketplaceProvider = Provider.of<MarketplaceProvider>(context, listen: false);
 
-    await Future.wait([
-      requestProvider.loadRequests(),
-      marketplaceProvider.loadWasteItems(),
-    ]);
+      await Future.wait([
+        requestProvider.loadRequests(),
+        marketplaceProvider.loadWasteItems(),
+      ]);
+    } catch (e) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Error loading data: ${e.toString()}'),
+            backgroundColor: Colors.red,
+          ),
+        );
+      }
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey[50],
+      backgroundColor: const Color.fromARGB(255, 235, 231, 249),
+      
       body: SafeArea(
         child: _selectedIndex == 0 ? _buildHomeContent() : _buildTabContent(),
       ),
       bottomNavigationBar: _buildBottomNavigationBar(),
       floatingActionButton: _selectedIndex == 0 ? FloatingActionButton(
         onPressed: _openChatbot,
-        backgroundColor: AppColors.primary,
+        backgroundColor: const Color.fromARGB(255, 128, 130, 244),
         child: const Icon(Icons.chat_bubble_outline, color: Colors.white),
       ) : null,
     );
@@ -107,6 +119,16 @@ class _UserDashboardState extends State<UserDashboard> {
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
+                        Container(
+          decoration: BoxDecoration(
+            shape: BoxShape.circle,
+            border: Border.all(color: Colors.white, width: 3),
+          ),
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(50),
+            child: Image.asset("assets/app_icon.png", height: 60),
+          ),
+        ),
                         const Text(
                           'Welcome to Vista!',
                           style: TextStyle(
@@ -300,8 +322,14 @@ class _UserDashboardState extends State<UserDashboard> {
     return Consumer<RequestProvider>(
       builder: (context, requestProvider, child) {
         final authProvider = Provider.of<AuthProvider>(context, listen: false);
+        
+        // Safety check for user
+        if (authProvider.user == null) {
+          return const SizedBox.shrink();
+        }
+        
         final userRequests = requestProvider.requests
-            .where((r) => r.userId == authProvider.user?.id)
+            .where((r) => r.userId == authProvider.user!.id)
             .take(3)
             .toList();
 
@@ -530,6 +558,10 @@ class _UserDashboardState extends State<UserDashboard> {
                     scrollDirection: Axis.horizontal,
                     itemCount: featuredItems.length,
                     itemBuilder: (context, index) {
+                      // Safety check
+                      if (index >= featuredItems.length) {
+                        return const SizedBox.shrink();
+                      }
                       final item = featuredItems[index];
                       return _buildMarketplaceCard(item);
                     },

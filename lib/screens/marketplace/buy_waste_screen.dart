@@ -1,7 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import '../../providers/marketplace_provider.dart';
-import '../../providers/auth_provider.dart';
 import '../../models/waste_item.dart';
 import '../../models/service_request.dart';
 import '../../utils/colors.dart';
@@ -35,7 +32,7 @@ class _BuyWasteScreenState extends State<BuyWasteScreen> {
         backgroundColor: AppColors.primary,
         foregroundColor: Colors.white,
       ),
-      backgroundColor: AppColors.background,
+      backgroundColor:const Color.fromARGB(255, 235, 231, 249),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(20),
         child: Form(

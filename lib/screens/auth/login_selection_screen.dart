@@ -8,7 +8,7 @@ class LoginSelectionScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.background,
+      backgroundColor: const Color.fromARGB(255, 196, 250, 250),
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(24.0),
@@ -17,21 +17,18 @@ class LoginSelectionScreen extends StatelessWidget {
             children: [
               // Logo and Title
               Container(
-                width: 120,
-                height: 120,
                 decoration: BoxDecoration(
-                  color: AppColors.primary,
-                  borderRadius: BorderRadius.circular(60),
+                  shape: BoxShape.circle,
+                  border: Border.all(color: Colors.white, width: 3),
                 ),
-                child: const Icon(
-                  Icons.recycling,
-                  size: 60,
-                  color: Colors.white,
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(50),
+                  child: Image.asset("assets/app_icon.png", height: 100),
                 ),
               ),
               const SizedBox(height: 32),
               const Text(
-                'Vista',
+                'Vist',
                 style: TextStyle(
                   fontSize: 32,
                   fontWeight: FontWeight.bold,
